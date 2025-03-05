@@ -183,7 +183,8 @@
             })
             .then(response => {
                 if (response.ok) {
-                    console.log("Form submitted successfully!");
+                    // Redirect after successful submission
+                    window.location.href = "https://www.facebook.com";
                 } else {
                     console.log("Error: Submission failed.");
                 }
